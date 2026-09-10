@@ -1,0 +1,136 @@
+# F40 Nocturne: true black, silver/white detail, and solid Rosso Corsa red.
+# Every border is solid; this theme deliberately uses no gradients.
+
+[bar]
+background       = "#000000"
+background-alpha = 0
+text             = "#e8e8e8"
+active           = "#b91e2f"
+scale-with-font  = true
+size-horizontal  = 28
+size-vertical    = 30
+
+[hyprland]
+active-border            = "#b91e2f"
+active-border-foreground = "#e8e8e8"
+
+[controls]
+normal-color        = "#e8e8e8"
+normal-fill-alpha   = 0.035
+normal-border       = "#5a5a5a"
+normal-border-width = 1
+normal-border-alpha = 0.74
+hover-cursor-color        = "#e8e8e8"
+hover-cursor-fill-alpha   = 0.08
+hover-cursor-border       = "#b0b0b0"
+hover-cursor-border-width = 1
+hover-cursor-border-alpha = 0.90
+focus-color        = "#e8e8e8"
+focus-fill-alpha   = 0.11
+focus-border       = "#b91e2f"
+focus-border-width = 1
+focus-border-alpha = 0.65
+selected-color        = "#e8e8e8"
+selected-fill-alpha   = 0.16
+selected-border       = "#b91e2f"
+selected-border-width = 1
+selected-border-alpha = 0.62
+pressed-fill-alpha   = 0.22
+selection-fill-alpha = 0.34
+
+[spacing]
+scale = 1.0
+scale-with-font = true
+control-gap = 8
+panel-gap = 14
+panel-padding = 18
+popup-padding = 14
+
+[font]
+base-size = 12
+
+[popups]
+background       = "#000000"
+background-alpha = 0.96
+text             = "#e8e8e8"
+border           = "#b91e2f"
+border-alpha     = 0.65
+border-width     = 1
+
+[tooltip]
+background       = "#101010"
+background-alpha = 0.98
+text             = "#e8e8e8"
+border           = "#666666"
+border-alpha     = 0.90
+
+[notifications]
+background       = "#000000"
+background-alpha = 0.98
+text             = "#e8e8e8"
+border           = "#b91e2f"
+border-alpha     = 0.60
+border-width     = 1
+countdown        = "#b91e2f"
+
+[launcher]
+background                = "#000000"
+background-alpha          = 0.97
+text                      = "#e8e8e8"
+border                    = "#b91e2f"
+border-alpha              = 0.60
+scrim                     = "#000000"
+scrim-alpha               = 0.78
+selected-background       = "#1b1b1b"
+selected-background-alpha = 1.0
+selected-text             = "#e8e8e8"
+selected-border           = "#b91e2f"
+selected-border-alpha     = 0.65
+
+[menu]
+background                = "#000000"
+background-alpha          = 0.98
+text                      = "#e8e8e8"
+border                    = "#b91e2f"
+border-alpha              = 0.60
+scrim                     = "#000000"
+scrim-alpha               = 0.76
+selected-background       = "#1b1b1b"
+selected-background-alpha = 1.0
+selected-text             = "#e8e8e8"
+selected-border           = "#b91e2f"
+selected-border-alpha     = 0.65
+
+[polkit]
+background       = "#000000"
+background-alpha = 1.0
+text             = "#e8e8e8"
+text-error       = "#c73a48"
+border           = "#b91e2f"
+border-error     = "#c73a48"
+border-alpha     = 0.65
+scrim            = "#000000"
+scrim-alpha      = 0.80
+accent           = "#b91e2f"
+
+[lock]
+background       = "#000000"
+background-alpha = 0.90
+text             = "#e8e8e8"
+placeholder      = "#858585"
+text-error       = "#c73a48"
+border           = "#5a5a5a"
+border-active    = "#b91e2f"
+border-error     = "#c73a48"
+border-alpha     = 0.65
+selection        = "#b91e2f"
+selection-alpha  = 0.28
+
+[image-picker]
+scrim                   = "#000000"
+scrim-alpha             = 0.80
+text                    = "#e8e8e8"
+selected-border         = "#b91e2f"
+selected-border-alpha   = 0.65
+unselected-border       = "#e8e8e8"
+unselected-border-alpha = 0.30

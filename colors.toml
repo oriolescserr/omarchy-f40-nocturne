@@ -1,0 +1,34 @@
+# F40 Nocturne — true OLED black, silver detail, muted Rosso Corsa accent.
+mode = "dark"
+
+accent = "#b91e2f"
+selection = "#1b1b1b"
+selection_foreground = "#e8e8e8"
+muted = "#d8d8d8"
+
+background = "#000000"
+dark_background = "#000000"
+darker_background = "#000000"
+lighter_background = "#171717"
+
+foreground = "#e8e8e8"
+dark_foreground = "#cbcbcb"
+light_foreground = "#e8e8e8"
+bright_foreground = "#e8e8e8"
+
+# Terminal neutrals, vivid champagne + silver; red Rosso accent.
+red = "#b91e2f"
+yellow = "#ead27a"
+orange = "#d8d8d8"
+green = "#e2e2e2"
+cyan = "#e8e8e8"
+blue = "#c9c9c9"
+magenta = "#b91e2f"
+brown = "#d8d8d8"
+
+bright_red = "#c73a48"
+bright_yellow = "#f6e5a1"
+bright_green = "#eaeaea"
+bright_cyan = "#fefefe"
+bright_blue = "#d6d6d6"
+bright_magenta = "#dedede"
