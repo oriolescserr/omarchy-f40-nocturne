@@ -24,15 +24,15 @@ Images are free of copyright, cropped to fit and upscaled to **3840×2400**. Cyc
   <tr>
     <td align="center" width="33%">
       <img src="backgrounds/01-rear-guard.jpg" alt="Rear wing studio on black" /><br>
-      <sub><strong>01 - Rear Guard</strong> (default)</sub>
+      <sub><strong>01 - Rear Guard</strong> (default)<br>Photo by yokatan</sub>
     </td>
     <td align="center" width="33%">
       <img src="backgrounds/02-strapped-in.jpg" alt="Cockpit with red harness" /><br>
-      <sub><strong>02 - Strapped In</strong></sub>
+      <sub><strong>02 - Strapped In</strong><br>Photo by Stefano Romanello</sub>
     </td>
     <td align="center" width="33%">
       <img src="backgrounds/03-nocturne.jpg" alt="Full side profile at night" /><br>
-      <sub><strong>03 - Nocturne</strong></sub>
+      <sub><strong>03 - Nocturne</strong><br>Photo credit not found</sub>
     </td>
   </tr>
 </table>
