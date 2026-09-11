@@ -3,7 +3,7 @@
 
 [bar]
 background       = "#000000"
-background-alpha = 0
+background-alpha = 0.7
 text             = "#e8e8e8"
 active           = "#b91e2f"
 scale-with-font  = true
