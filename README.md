@@ -16,6 +16,14 @@ omarchy theme set f40-nocturne
 Or **Install → Style → Theme** from the Omarchy menu (`Super + Space`) and
 paste the URL.
 
+### Screensaver
+
+Omarchy does not apply theme screensaver branding automatically. To use the included ASCII art:
+
+```bash
+cp ~/.config/omarchy/themes/f40-nocturne/screensaver.txt ~/.config/omarchy/branding/screensaver.txt
+```
+
 ## Backgrounds
 
 Images are free of copyright, cropped to fit and upscaled to **3840×2400**. Cycle with `omarchy theme bg next`, or from the Omarchy menu (`Super + Space`) under **Style → Background**.
