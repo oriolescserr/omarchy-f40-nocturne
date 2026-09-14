@@ -10,7 +10,6 @@ Every colour is taken from the car. **Rosso Corsa** from the bodywork, **Giallo*
 
 ```bash
 omarchy theme install https://github.com/oriolescserr/omarchy-f40-nocturne
-omarchy theme set f40-nocturne
 ```
 
 Or **Install → Style → Theme** from the Omarchy menu (`Super + Space`) and
@@ -23,6 +22,8 @@ Omarchy does not apply theme screensaver branding automatically. To use the incl
 ```bash
 cp ~/.config/omarchy/themes/f40-nocturne/screensaver.txt ~/.config/omarchy/branding/screensaver.txt
 ```
+
+This overwrites any existing screensaver branding.
 
 ## Backgrounds
 
