@@ -1,34 +1,44 @@
-# F40 Nocturne: true OLED black, silver detail, muted Rosso Corsa accent.
+# F40 Nocturne
+# Omarchy palette for a Ferrari F40 desk: night ground, silver field,
+# Rosso Corsa body paint, and a little Cavallino Giallo.
+# Prefer metal luminance over extra hues. Keep red and yellow rare.
+# After edits: omarchy theme set f40-nocturne
+
 mode = "dark"
 
+# UI chrome (bar, menus, focus) - Rosso Corsa body paint.
 accent = "#b91e2f"
+# Selected rows / visual selection - soft carbon, muted silver (not glare white).
 selection = "#1b1b1b"
-selection_foreground = "#e8e8e8"
-muted = "#d8d8d8"
+selection_foreground = "#c7c5c5"
+# Comments, line numbers, dim UI - receding steel.
+muted = "#6f6f6f"
 
+# Night ground: true black void, slightly lifted sidebars and cursorline.
 background = "#000000"
-dark_background = "#000000"
+dark_background = "#0a0a0a"
 darker_background = "#000000"
 lighter_background = "#171717"
 
+# Silver field: main text and highlights on the black ground.
 foreground = "#e8e8e8"
-dark_foreground = "#cbcbcb"
+dark_foreground = "#888888"
 light_foreground = "#e8e8e8"
 bright_foreground = "#e8e8e8"
 
-# Terminal neutrals, vivid champagne + silver; red Rosso accent.
-red = "#b91e2f"
-yellow = "#ead27a"
-orange = "#d8d8d8"
-green = "#969987"
-cyan = "#e8e8e8"
-blue = "#b8b6b6"
-magenta = "#a62634"
-brown = "#d8d8d8"
+# Slot names are template labels (cyan/blue/…); hues stay F40-only.
+red = "#b91e2f"       # Rosso - errors, diffs delete, rare hard accent
+yellow = "#ead27a"    # Giallo - types, warnings, Cavallino badge
+orange = "#bd5b65"    # Dusty Rosso - numbers, secondary warm metal
+green = "#d4d4d4"     # Pearl steel - strings
+cyan = "#e3d7aa"      # Soft Giallo - params, soft champagne metal
+blue = "#adadb8"      # Cool steel - functions, links
+magenta = "#cc3f4e"   # Lit Rosso - keywords (def / if / return)
 
+# Bright cousins (~20% toward white). Keep the same family as the base.
 bright_red = "#c73a48"
 bright_yellow = "#f6e5a1"
-bright_green = "#eaeaea"
-bright_cyan = "#fefefe"
-bright_blue = "#d6d6d6"
-bright_magenta = "#dedede"
+bright_green = "#dddddd"
+bright_cyan = "#e9dfbb"
+bright_blue = "#b6b6c0"
+bright_magenta = "#d66571"
