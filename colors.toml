@@ -1,44 +1,47 @@
-# F40 Nocturne
-# Omarchy palette for a Ferrari F40 desk: night ground, silver field,
-# Rosso Corsa body paint, and a little Cavallino Giallo.
-# Prefer metal luminance over extra hues. Keep red and yellow rare.
+# F40 Nocturne · Nero Daytona
+# Warm graphite ground instead of a black void, silver text, Rosso Corsa
+# matched to the paint in the backgrounds (OKLCH hue ~26), Giallo Modena kept
+# rare. The quieter hues come from the backgrounds themselves: glass sage,
+# slate windows, amber street lamps.
 # After edits: omarchy theme set f40-nocturne
 
 mode = "dark"
 
-# UI chrome (bar, menus, focus) - Rosso Corsa body paint.
-accent = "#b91e2f"
-# Selected rows / visual selection - soft carbon, muted silver (not glare white).
-selection = "#1b1b1b"
-selection_foreground = "#c7c5c5"
-# Comments, line numbers, dim UI - receding steel.
-muted = "#6f6f6f"
+# UI chrome (bar, menus, focus) - Rosso Corsa as the paint reads under light.
+accent = "#d8232a"
+# Selected rows / visual selection - warm carbon with bright silver text.
+selection = "#2c2627"
+selection_foreground = "#f2ede9"
+# Comments, line numbers, dim UI - warm steel.
+muted = "#756c6a"
 
-# Night ground: true black void, slightly lifted sidebars and cursorline.
-background = "#000000"
-dark_background = "#0a0a0a"
-darker_background = "#000000"
-lighter_background = "#171717"
+# Nero Daytona ground: tinted toward the shadows of the photos, never #000.
+background = "#141213"
+dark_background = "#0f0d0e"
+darker_background = "#0b0a0a"
+lighter_background = "#1e1b1c"
 
-# Silver field: main text and highlights on the black ground.
-foreground = "#e8e8e8"
-dark_foreground = "#888888"
-light_foreground = "#e8e8e8"
-bright_foreground = "#e8e8e8"
+# Silver field, leaning slightly warm like the studio floor.
+foreground = "#e4dfdb"
+dark_foreground = "#8c8482"
+light_foreground = "#b6afab"
+bright_foreground = "#f4f0ec"
 
-# Slot names are template labels (cyan/blue/…); hues stay F40-only.
-red = "#b91e2f"       # Rosso - errors, diffs delete, rare hard accent
-yellow = "#ead27a"    # Giallo - types, warnings, Cavallino badge
-orange = "#bd5b65"    # Dusty Rosso - numbers, secondary warm metal
-green = "#d4d4d4"     # Pearl steel - strings
-cyan = "#e3d7aa"      # Soft Giallo - params, soft champagne metal
-blue = "#adadb8"      # Cool steel - functions, links
-magenta = "#cc3f4e"   # Lit Rosso - keywords (def / if / return)
+red = "#e5493f"       # Rosso - errors, deletions (readable as text: 4.8:1)
+yellow = "#f0c23b"    # Giallo Modena / Sabelt - user, warnings, types
+orange = "#e8914a"    # Amber street lamps - numbers
+green = "#a5b38b"     # Glass sage (Nocturne windows) - strings, sizes
+cyan = "#90b4b0"      # Cool glass - params
+blue = "#8fa4c2"      # Slate windows - functions, dates, folders
+magenta = "#ec5f45"   # Rosso Scuderia, lighter and warmer than red - keywords, agent labels
 
-# Bright cousins (~20% toward white). Keep the same family as the base.
-bright_red = "#c73a48"
-bright_yellow = "#f6e5a1"
-bright_green = "#dddddd"
-bright_cyan = "#e9dfbb"
-bright_blue = "#b6b6c0"
-bright_magenta = "#d66571"
+bright_red = "#f0675d"
+bright_yellow = "#f6d266"
+bright_green = "#bac6a2"
+bright_cyan = "#a9c8c4"
+bright_blue = "#a9bbd4"
+bright_magenta = "#f47d66"
+
+# Window borders (Hyprland is generated from these).
+hyprland_active_border = "rgba(d8232aee)"
+hyprland_inactive_border = "rgba(3a3334cc)"

@@ -1,40 +1,40 @@
-# F40 Nocturne: true black, silver/white detail, and solid Rosso Corsa red.
+# F40 Nocturne · Nero Daytona: warm graphite, silver detail, solid Rosso Corsa.
 # Every border is solid; this theme deliberately uses no gradients.
 
 [bar]
-background       = "#000000"
-background-alpha = 0.7
-text             = "#e8e8e8"
-active           = "#b91e2f"
+background       = "#141213"
+background-alpha = 0.8
+text             = "#e4dfdb"
+active           = "#d8232a"
 scale-with-font  = true
 size-horizontal  = 28
 size-vertical    = 30
 
 [hyprland]
-active-border            = "#b91e2f"
-active-border-foreground = "#e8e8e8"
+active-border            = "#d8232a"
+active-border-foreground = "#e4dfdb"
 
 [controls]
-normal-color        = "#e8e8e8"
-normal-fill-alpha   = 0.035
-normal-border       = "#5a5a5a"
+normal-color        = "#e4dfdb"
+normal-fill-alpha   = 0.04
+normal-border       = "#5c5453"
 normal-border-width = 1
-normal-border-alpha = 0.74
-hover-cursor-color        = "#e8e8e8"
+normal-border-alpha = 0.8
+hover-cursor-color        = "#e4dfdb"
 hover-cursor-fill-alpha   = 0.08
-hover-cursor-border       = "#b0b0b0"
+hover-cursor-border       = "#b6afab"
 hover-cursor-border-width = 1
 hover-cursor-border-alpha = 0.90
-focus-color        = "#e8e8e8"
+focus-color        = "#e4dfdb"
 focus-fill-alpha   = 0.11
-focus-border       = "#b91e2f"
+focus-border       = "#d8232a"
 focus-border-width = 1
-focus-border-alpha = 0.65
-selected-color        = "#e8e8e8"
+focus-border-alpha = 0.7
+selected-color        = "#f2ede9"
 selected-fill-alpha   = 0.16
-selected-border       = "#b91e2f"
+selected-border       = "#d8232a"
 selected-border-width = 1
-selected-border-alpha = 0.62
+selected-border-alpha = 0.65
 pressed-fill-alpha   = 0.22
 selection-fill-alpha = 0.34
 
@@ -50,87 +50,87 @@ popup-padding = 14
 base-size = 12
 
 [popups]
-background       = "#000000"
+background       = "#141213"
 background-alpha = 0.96
-text             = "#e8e8e8"
-border           = "#b91e2f"
+text             = "#e4dfdb"
+border           = "#d8232a"
 border-alpha     = 0.65
 border-width     = 1
 
 [tooltip]
-background       = "#101010"
+background       = "#1e1b1c"
 background-alpha = 0.98
-text             = "#e8e8e8"
-border           = "#666666"
+text             = "#e4dfdb"
+border           = "#5c5453"
 border-alpha     = 0.90
 
 [notifications]
-background       = "#000000"
-background-alpha = 0.98
-text             = "#e8e8e8"
-border           = "#b91e2f"
-border-alpha     = 0.60
+background       = "#141213"
+background-alpha = 0.97
+text             = "#e4dfdb"
+border           = "#d8232a"
+border-alpha     = 0.65
 border-width     = 1
-countdown        = "#b91e2f"
+countdown        = "#d8232a"
 
 [launcher]
-background                = "#000000"
+background                = "#141213"
 background-alpha          = 0.97
-text                      = "#e8e8e8"
-border                    = "#b91e2f"
-border-alpha              = 0.60
-scrim                     = "#000000"
-scrim-alpha               = 0.78
-selected-background       = "#1b1b1b"
+text                      = "#e4dfdb"
+border                    = "#d8232a"
+border-alpha              = 0.65
+scrim                     = "#0b0a0a"
+scrim-alpha               = 0.72
+selected-background       = "#2c2627"
 selected-background-alpha = 1.0
-selected-text             = "#e8e8e8"
-selected-border           = "#b91e2f"
-selected-border-alpha     = 0.65
+selected-text             = "#f2ede9"
+selected-border           = "#d8232a"
+selected-border-alpha     = 0.7
 
 [menu]
-background                = "#000000"
-background-alpha          = 0.98
-text                      = "#e8e8e8"
-border                    = "#b91e2f"
-border-alpha              = 0.60
-scrim                     = "#000000"
-scrim-alpha               = 0.76
-selected-background       = "#1b1b1b"
+background                = "#141213"
+background-alpha          = 0.97
+text                      = "#e4dfdb"
+border                    = "#d8232a"
+border-alpha              = 0.65
+scrim                     = "#0b0a0a"
+scrim-alpha               = 0.70
+selected-background       = "#2c2627"
 selected-background-alpha = 1.0
-selected-text             = "#e8e8e8"
-selected-border           = "#b91e2f"
-selected-border-alpha     = 0.65
+selected-text             = "#f2ede9"
+selected-border           = "#d8232a"
+selected-border-alpha     = 0.7
 
 [polkit]
-background       = "#000000"
+background       = "#141213"
 background-alpha = 1.0
-text             = "#e8e8e8"
-text-error       = "#c73a48"
-border           = "#b91e2f"
-border-error     = "#c73a48"
-border-alpha     = 0.65
-scrim            = "#000000"
-scrim-alpha      = 0.80
-accent           = "#b91e2f"
+text             = "#e4dfdb"
+text-error       = "#e5493f"
+border           = "#d8232a"
+border-error     = "#e5493f"
+border-alpha     = 0.7
+scrim            = "#0b0a0a"
+scrim-alpha      = 0.78
+accent           = "#d8232a"
 
 [lock]
-background       = "#000000"
-background-alpha = 0.90
-text             = "#e8e8e8"
-placeholder      = "#858585"
-text-error       = "#c73a48"
-border           = "#5a5a5a"
-border-active    = "#b91e2f"
-border-error     = "#c73a48"
-border-alpha     = 0.65
-selection        = "#b91e2f"
+background       = "#141213"
+background-alpha = 0.88
+text             = "#e4dfdb"
+placeholder      = "#8c8482"
+text-error       = "#e5493f"
+border           = "#5c5453"
+border-active    = "#d8232a"
+border-error     = "#e5493f"
+border-alpha     = 0.7
+selection        = "#d8232a"
 selection-alpha  = 0.28
 
 [image-picker]
-scrim                   = "#000000"
-scrim-alpha             = 0.80
-text                    = "#e8e8e8"
-selected-border         = "#b91e2f"
-selected-border-alpha   = 0.65
-unselected-border       = "#e8e8e8"
-unselected-border-alpha = 0.30
+scrim                   = "#0b0a0a"
+scrim-alpha             = 0.78
+text                    = "#e4dfdb"
+selected-border         = "#d8232a"
+selected-border-alpha   = 0.7
+unselected-border       = "#e4dfdb"
+unselected-border-alpha = 0.25

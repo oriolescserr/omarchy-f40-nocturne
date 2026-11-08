@@ -1,0 +1,192 @@
+#!/bin/bash
+# intro-sound: play a background intro's sound in sync with the video.
+#
+# OWE always plays background intros muted. When an intro has a sound file
+# beside it (backgrounds/intros/<name>.ogg next to <name>.mp4), the hooks this
+# command installs play that sound from the same position as the video, at
+# login and when switching themes. On by default once installed.
+
+set -euo pipefail
+
+SELF="$HOME/.local/bin/intro-sound"
+HOOKS="$HOME/.config/omarchy/hooks"
+TOGGLES="$HOME/.local/state/omarchy/toggles"
+HOOK_NAME="90-intro-sound"
+
+usage() {
+  cat <<'EOF'
+Usage: intro-sound <command> [theme|login|all]
+
+  install              Add the login and theme-change hooks (sound on)
+  uninstall            Remove the hooks, settings and this command
+  off [scope]          Mute the intro sound (default scope: theme change)
+  on  [scope]          Unmute it again (default scope: theme change)
+  toggle [scope]       Switch between on and off
+  status               Show where the sound plays
+
+Scopes: theme = when switching themes, login = at login, all = both.
+
+Examples:
+  intro-sound off          No engine sound when switching themes
+  intro-sound on           Sound again when switching themes
+  intro-sound off all      Never play intro sounds
+EOF
+}
+
+scopes() {
+  case ${1:-theme} in
+    theme) echo theme ;;
+    login) echo login ;;
+    all) echo "login theme" ;;
+    *) usage >&2; exit 1 ;;
+  esac
+}
+
+off_file() { echo "$TOGGLES/intro-sound-$1-off"; }
+label() { [[ $1 == theme ]] && echo "theme change" || echo "login"; }
+installed() { [[ -f $HOOKS/post-boot.d/$HOOK_NAME && -f $HOOKS/theme-set.d/$HOOK_NAME ]]; }
+
+# Nerd Font glyphs (Material Design set), as Omarchy's own notifications use.
+G_ENGINE=$'\U000f01fa'      # 󰇺 engine
+G_ENGINE_OFF=$'\U000f0a46'  # 󰩆 engine off
+G_SOUND=$'\U000f057e'       # 󰕾 volume high
+G_MUTED=$'\U000f0581'       # 󰖁 volume off
+
+say() { # glyph headline [description]
+  local glyph=$1 headline=$2 description=${3:-}
+  echo "$glyph  $headline${description:+ · $description}"
+  if command -v omarchy-notification-send >/dev/null 2>&1; then
+    omarchy-notification-send -g "$glyph" "$headline" ${description:+"$description"} >/dev/null 2>&1 || true
+  fi
+}
+
+set_state() { # on|off scope...
+  local want=$1 s; shift
+  mkdir -p "$TOGGLES"
+  for s in "$@"; do
+    if [[ $want == off ]]; then touch "$(off_file "$s")"; else rm -f "$(off_file "$s")"; fi
+  done
+}
+
+LOG="$HOME/.local/state/omarchy/intro-sound.log"
+log() { printf '%s %s\n' "$(date +%T.%3N)" "$*" >>"$LOG"; }
+
+play() { # scope: wait for OWE to start an intro, then play its sound in sync
+  local scope=$1
+  mkdir -p "$(dirname "$LOG")"
+  : >"$LOG"
+  log "play $scope (pid $$)"
+  [[ -f $(off_file "$scope") ]] && { log "muted for $scope"; return 0; }
+  for cmd in owe mpv jq; do
+    command -v "$cmd" >/dev/null || { log "missing $cmd"; return 0; }
+  done
+  # setsid: the hook's parent (Hyprland's exec, theme-set) may end before the intro does.
+  setsid -f "$0" _wait "$scope" </dev/null >>"$LOG" 2>&1
+}
+
+renderer_intro() { # prints "<pos> <path>" while OWE's renderer shows an intro
+  local s
+  s=$(timeout 0.4 owe render-status 2>/dev/null) || return 1
+  jq -er 'select(.kind == "video" and (.path | test("/backgrounds/intros/")) and .time_pos > 0)
+          | "\(.time_pos) \(.path)"' <<<"$s" 2>/dev/null
+}
+
+journal_intro() { # prints "<pos> <path>" from the time owed logged "intro playing"
+  local line t path
+  line=$(journalctl --user -u owed -b -o short-unix --no-pager -n 60 2>/dev/null |
+    grep -E 'intro (playing|finished|ended)' | tail -1) || return 1
+  [[ $line == *"intro playing: "*/backgrounds/intros/* ]] || return 1
+  t=${line%% *}
+  path=${line##*intro playing: }
+  awk -v now="$EPOCHREALTIME" -v t="$t" -v p="$path" \
+    'BEGIN { d = now - t; if (d < 0 || d > 6) exit 1; printf "%.3f %s", d, p }'
+}
+
+wait_and_play() {
+  exec 9>"${XDG_RUNTIME_DIR:-/tmp}/intro-sound.lock"
+  flock -n 9 || { log "already waiting"; exit 0; }
+  log "waiting for intro"
+  local deadline=$((SECONDS + 20)) found="" how="" pos path sound start rc
+  while ((SECONDS < deadline)); do
+    if found=$(renderer_intro); then
+      how="renderer"
+      break
+    fi
+    # The renderer can be too busy to answer during the first intro after
+    # login. owed's own log line says when playback began; use that instead
+    # once the renderer has had half a second to confirm.
+    if found=$(journal_intro) && awk -v p="${found%% *}" 'BEGIN { exit !(p >= 0.5) }'; then
+      how="journal"
+      break
+    fi
+    found=""
+    sleep 0.03
+  done
+  [[ -n $found ]] || { log "no intro started"; exit 0; }
+  pos=${found%% *}
+  path=${found#* }
+  sound="${path%.*}.ogg"
+  [[ -f $sound ]] || { log "no sound for $path"; exit 0; }
+  awk -v p="$pos" 'BEGIN { exit !(p < 5.5) }' || { log "intro already at ${pos}s, skipped"; exit 0; }
+  start=$(awk -v p="$pos" 'BEGIN { printf "%.3f", p + 0.12 }')  # mpv start-up + query latency
+  log "intro at ${pos}s (from $how), sound from ${start}s"
+  rc=0
+  mpv --no-video --no-terminal --msg-level=all=error --start="$start" "$sound" || rc=$?
+  log "mpv exited $rc"
+}
+
+case ${1:-} in
+  install)
+    mkdir -p "$(dirname "$SELF")" "$HOOKS/post-boot.d" "$HOOKS/theme-set.d"
+    src=$(realpath "${BASH_SOURCE[0]}")
+    [[ $src == "$(realpath -m "$SELF")" ]] || install -m 755 "$src" "$SELF"
+    printf '#!/bin/bash\n# Intro sound at login. Manage with: intro-sound\nexec "$HOME/.local/bin/intro-sound" play login\n' >"$HOOKS/post-boot.d/$HOOK_NAME"
+    printf '#!/bin/bash\n# Intro sound on theme change. Manage with: intro-sound\nexec "$HOME/.local/bin/intro-sound" play theme\n' >"$HOOKS/theme-set.d/$HOOK_NAME"
+    set_state on login theme
+    say "$G_ENGINE" "Intro sound ready" "Plays at login and on theme change. Mute with: intro-sound off"
+    ;;
+  uninstall)
+    rm -f "$HOOKS/post-boot.d/$HOOK_NAME" "$HOOKS/theme-set.d/$HOOK_NAME" "$(off_file login)" "$(off_file theme)"
+    say "$G_ENGINE_OFF" "Intro sound removed" "Hooks and settings are gone"
+    rm -f "$SELF"
+    ;;
+  on | off)
+    installed || { echo "Not installed. Run: intro-sound install" >&2; exit 1; }
+    read -r -a list <<<"$(scopes "${2:-}")"
+    set_state "$1" "${list[@]}"
+    names=(); for s in "${list[@]}"; do names+=("$(label "$s")"); done
+    where=$(IFS=,; echo "${names[*]}" | sed 's/,/ and /')
+    where=${where^}
+    if [[ $1 == on ]]; then
+      say "$G_SOUND" "Intro sound on" "$where"
+    else
+      say "$G_MUTED" "Intro sound muted" "$where. Turn back on with: intro-sound on${2:+ $2}"
+    fi
+    ;;
+  toggle)
+    read -r -a list <<<"$(scopes "${2:-}")"
+    if [[ -f $(off_file "${list[0]}") ]]; then exec "$0" on "${2:-theme}"; else exec "$0" off "${2:-theme}"; fi
+    ;;
+  status)
+    if installed; then
+      echo "$G_ENGINE  hooks         installed"
+    else
+      echo "$G_ENGINE_OFF  hooks         not installed (intro-sound install)"
+    fi
+    for s in login theme; do
+      if [[ -f $(off_file "$s") ]]; then
+        printf '%s  %-13s off\n' "$G_MUTED" "$(label "$s")"
+      else
+        printf '%s  %-13s on\n' "$G_SOUND" "$(label "$s")"
+      fi
+    done
+    ;;
+  play)
+    play "${2:-theme}"
+    ;;
+  _wait)
+    wait_and_play
+    ;;
+  -h | --help | help) usage ;;
+  *) usage >&2; exit 1 ;;
+esac
