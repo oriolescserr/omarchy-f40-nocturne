@@ -35,6 +35,16 @@ cp ~/.config/omarchy/themes/f40-nocturne/screensaver.txt ~/.config/omarchy/brand
 
 This overwrites any existing screensaver branding.
 
+### Intro sound
+
+Omarchy plays the intro without sound. To hear the engine as well, run this once:
+
+```bash
+~/.config/omarchy/themes/f40-nocturne/extras/intro-sound install
+```
+
+The sound is on by default. See [Engine sound](#engine-sound) to turn it off or remove it.
+
 ## Backgrounds
 
 Images are free of copyright, cropped to fit and upscaled to **3840×2400**. Cycle with `omarchy theme bg next`, or from the Omarchy menu (`Super + Space`) under **Style → Background**.
@@ -73,13 +83,7 @@ omarchy theme bg intro enable
 
 ### Engine sound
 
-Omarchy always plays intros without sound. This theme ships the engine sound as a separate file, plus a small command called `intro-sound` that plays it in time with the video.
-
-Install it once:
-
-```bash
-~/.config/omarchy/themes/f40-nocturne/extras/intro-sound install
-```
+Omarchy always plays intros without sound. This theme ships the engine sound as a separate file, plus a small command called `intro-sound` that plays it in time with the video. Install it with the command under [Intro sound](#intro-sound).
 
 The sound then plays at login and whenever you switch to the theme. To change that later:
 
