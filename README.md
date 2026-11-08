@@ -43,7 +43,7 @@ Omarchy plays the intro without sound. To hear the engine as well, run this once
 ~/.config/omarchy/themes/f40-nocturne/extras/intro-sound install
 ```
 
-The sound is on by default. See [Engine sound](#engine-sound) to turn it off or remove it.
+Installing the theme does not add the sound, so the intro stays silent until you run this command. Once you do, the sound plays at login and when you switch themes. See [Engine sound](#engine-sound) to turn it off or remove it.
 
 ## Backgrounds
 
@@ -93,7 +93,7 @@ The sound then plays at login and whenever you switch to the theme. To change th
 | `intro-sound on` | Sound again when switching themes |
 | `intro-sound off login` | No sound at login |
 | `intro-sound off all` | No sound at login or when switching themes |
-| `intro-sound on all` | Sound in both cases (the default after install) |
+| `intro-sound on all` | Sound at login and when switching themes (how `install` leaves it) |
 | `intro-sound status` | Show where the sound is on or off |
 | `intro-sound uninstall` | Remove the command and everything it added |
 
