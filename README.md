@@ -74,6 +74,8 @@ With the **Rear Guard** background, an 8-second intro plays when you log in and 
   <img src="docs/intro.gif" alt="Rear Guard intro: the F40 fades in, the exhaust puffs twice, then clears" width="560" /><br>
 </p>
 
+<strong>Watch the result of the intro, with sound in [docs/f40-intro.mp4](docs/f40-intro.mp4)</strong>
+
 To turn intros off or on (this applies to every theme):
 
 ```bash
