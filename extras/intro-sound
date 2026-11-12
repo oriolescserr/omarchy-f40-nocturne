@@ -22,6 +22,9 @@ Usage: intro-sound <command> [theme|login|all]
   off [scope]          Mute the intro sound (default scope: theme change)
   on  [scope]          Unmute it again (default scope: theme change)
   toggle [scope]       Switch between on and off
+  volume [level]       Show or set how loud the intro sound is (percent, 100 by
+                       default). 0 mutes it. Above 300 asks first. +10 and -10
+                       change it by steps. "volume reset" goes back to 100
   status               Show where the sound plays
 
 Scopes: theme = when switching themes, login = at login, all = both.
@@ -30,6 +33,8 @@ Examples:
   intro-sound off          No engine sound when switching themes
   intro-sound on           Sound again when switching themes
   intro-sound off all      Never play intro sounds
+  intro-sound volume 70    Play the sound at 70% of its level
+  intro-sound volume +10   A bit louder
 EOF
 }
 
@@ -51,10 +56,13 @@ G_ENGINE=$'\U000f01fa'      # 󰇺 engine
 G_ENGINE_OFF=$'\U000f0a46'  # 󰩆 engine off
 G_SOUND=$'\U000f057e'       # 󰕾 volume high
 G_MUTED=$'\U000f0581'       # 󰖁 volume off
+G_VOL_LOW=$'\U000f057f'     # 󰕿 volume low
+G_VOL_MID=$'\U000f0580'     # 󰖀 volume medium
 
 say() { # glyph headline [description]
+  # Confirmation is the desktop notification. The terminal stays quiet unless
+  # something failed (those messages go to stderr at the call site).
   local glyph=$1 headline=$2 description=${3:-}
-  echo "$glyph  $headline${description:+ · $description}"
   if command -v omarchy-notification-send >/dev/null 2>&1; then
     omarchy-notification-send -g "$glyph" "$headline" ${description:+"$description"} >/dev/null 2>&1 || true
   fi
@@ -77,11 +85,23 @@ play() { # scope: wait for OWE to start an intro, then play its sound in sync
   : >"$LOG"
   log "play $scope (pid $$)"
   [[ -f $(off_file "$scope") ]] && { log "muted for $scope"; return 0; }
+  (( $(read_volume) == 0 )) && { log "volume 0"; return 0; }
   for cmd in owe mpv jq; do
     command -v "$cmd" >/dev/null || { log "missing $cmd"; return 0; }
   done
   # setsid: the hook's parent (Hyprland's exec, theme-set) may end before the intro does.
   setsid -f "$0" _wait "$scope" </dev/null >>"$LOG" 2>&1
+}
+
+# How far (ms) the sound runs ahead of the exhaust smoke. Raise it if the smoke
+# looks early, lower it if the smoke looks late.
+SOUND_LEAD_MS=90
+
+VOLUME_FILE="$HOME/.local/state/omarchy/intro-sound.volume"
+read_volume() { # percent, 100 is the normal level
+  local v=""
+  [[ -r $VOLUME_FILE ]] && v=$(<"$VOLUME_FILE")
+  [[ $v =~ ^[0-9]+$ ]] && echo "$v" || echo 100
 }
 
 renderer_intro() { # prints "<pos> <path>" while OWE's renderer shows an intro
@@ -128,10 +148,14 @@ wait_and_play() {
   sound="${path%.*}.ogg"
   [[ -f $sound ]] || { log "no sound for $path"; exit 0; }
   awk -v p="$pos" 'BEGIN { exit !(p < 5.5) }' || { log "intro already at ${pos}s, skipped"; exit 0; }
-  start=$(awk -v p="$pos" 'BEGIN { printf "%.3f", p + 0.12 }')  # mpv start-up + query latency
+  # 120 ms covers mpv start-up and the status query, then the lead on top.
+  start=$(awk -v p="$pos" -v o="$SOUND_LEAD_MS" 'BEGIN { s = p + 0.12 + o / 1000; if (s < 0) s = 0; printf "%.3f", s }')
   log "intro at ${pos}s (from $how), sound from ${start}s"
   rc=0
-  mpv --no-video --no-terminal --msg-level=all=error --start="$start" "$sound" || rc=$?
+  # mpv's own volume scale is cubic, so convert: 50% here means half the amplitude.
+  mpv_volume=$(awk -v p="$(read_volume)" 'BEGIN { v = 100 * (p * 0.8 / 100) ^ (1 / 3); if (v > 1000) v = 1000; printf "%.2f", v }')
+  mpv --no-video --no-terminal --msg-level=all=error --start="$start" \
+    --volume-max=1000 --volume="$mpv_volume" "$sound" || rc=$?
   log "mpv exited $rc"
 }
 
@@ -166,6 +190,33 @@ case ${1:-} in
   toggle)
     read -r -a list <<<"$(scopes "${2:-}")"
     if [[ -f $(off_file "${list[0]}") ]]; then exec "$0" on "${2:-theme}"; else exec "$0" off "${2:-theme}"; fi
+    ;;
+  volume)
+    cur=$(read_volume)
+    case ${2:-} in
+      "") echo "Intro sound volume: ${cur}%" ;;
+      reset) new=100 ;;
+      +[0-9]* | -[0-9]*) [[ ${2:1} =~ ^[0-9]+$ ]] && new=$((cur + $2)) ;;
+      *[!0-9]*) ;;
+      *) new=$((10#$2)) ;;
+    esac
+    if [[ -n ${2:-} ]]; then
+      [[ -n ${new:-} ]] || { echo "Use 0 to mute, a positive number, +10, -10 or reset" >&2; exit 1; }
+      ((new < 0)) && new=0
+      if ((new > 300 && new > cur)); then
+        [[ -t 0 ]] || { echo "Volume above 300 needs a yes in the terminal" >&2; exit 1; }
+        printf 'Raise intro sound volume to %s%%? It is above 300. [y/N] ' "$new" >&2
+        read -r reply || exit 1
+        [[ $reply =~ ^[Yy]([Ee][Ss])?$ ]] || exit 0
+      fi
+      if ((new == 100)); then rm -f "$VOLUME_FILE"; else mkdir -p "$(dirname "$VOLUME_FILE")"; echo "$new" >"$VOLUME_FILE"; fi
+      if ((new == 0)); then
+        say "$G_MUTED" "Intro sound muted" "Applies from the next intro"
+      else
+        if ((new <= 40)); then glyph=$G_VOL_LOW; elif ((new <= 80)); then glyph=$G_VOL_MID; else glyph=$G_SOUND; fi
+        say "$glyph" "Intro sound volume ${new}%" "Applies from the next intro"
+      fi
+    fi
     ;;
   status)
     if installed; then

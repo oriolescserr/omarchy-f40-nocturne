@@ -96,6 +96,9 @@ The sound then plays at login and whenever you switch to the theme. To change th
 | `intro-sound off login` | No sound at login |
 | `intro-sound off all` | No sound at login or when switching themes |
 | `intro-sound on all` | Sound at login and when switching themes (how `install` leaves it) |
+| `intro-sound volume 70` | Play the sound at 70% of its level (5 to 200, default 100) |
+| `intro-sound volume +10` | A bit louder (`-10` for a bit quieter) |
+| `intro-sound volume reset` | Back to the default level |
 | `intro-sound status` | Show where the sound is on or off |
 | `intro-sound uninstall` | Remove the command and everything it added |
 
